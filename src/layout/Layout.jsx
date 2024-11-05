@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
+
 import NavComponent from "../components/Navbar";
+import FooterComponent from "../components/Footer";
 
 export default function RootLayout() {
   return (
@@ -10,7 +12,7 @@ export default function RootLayout() {
         <Outlet />
       </div>
 
-      <footer>This if footer!</footer>
+      <FooterComponent />
     </div>
   );
 }
