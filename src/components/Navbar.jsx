@@ -27,9 +27,7 @@ export default function NavComponent() {
   return (
     <Navbar fluid rounded className="bg-slate-950 px-0">
       <Navbar.Brand href="/">
-        <h2 className="text-xl md:text-2xl" style={{ fontStyle: "italic" }}>
-          Blog Haat
-        </h2>
+        <h2 className="text-xl md:text-2xl font-bold italic">Blog Haat</h2>
       </Navbar.Brand>
 
       <Navbar.Collapse>
