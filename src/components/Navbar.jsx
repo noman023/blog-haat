@@ -49,13 +49,7 @@ export default function NavComponent() {
         <Dropdown
           arrowIcon={false}
           inline
-          label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded
-            />
-          }
+          label={<Avatar alt="User settings" img="/user.png" rounded />}
           className="bg-slate-700"
         >
           <Dropdown.Header className="text-slate-300">
