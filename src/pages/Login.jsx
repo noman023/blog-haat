@@ -12,7 +12,7 @@ export default function Login() {
 
   return (
     <div>
-      <form className="bg-slate-700 flex max-w-md flex-col gap-4 border-2 border-gray-500 mx-auto my-10 p-5 rounded-xl shadow-2xl">
+      <form className="bg-slate-800 flex max-w-md flex-col gap-4 border-2 border-gray-500 mx-auto my-10 p-5 rounded-xl shadow-2xl">
         <div>
           <div className="mb-2 block">
             <Label
@@ -22,11 +22,12 @@ export default function Login() {
             />
           </div>
 
-          <TextInput
+          <input
             id="email1"
             type="email"
             placeholder="name@example.com"
             required
+            className="w-full bg-slate-900 border-slate-500 rounded-md"
           />
         </div>
 
@@ -39,11 +40,12 @@ export default function Login() {
             />
           </div>
 
-          <TextInput
+          <input
             id="password1"
             type={showPassword ? "text" : "password"}
             placeholder="password"
             required
+            className="w-full bg-slate-900 border-slate-500 rounded-md"
           />
 
           {showPassword ? (
@@ -69,16 +71,19 @@ export default function Login() {
           </Link>
         </p>
 
-        <Button type="submit" color="dark">
+        <Button type="submit" color="gray">
           Login
         </Button>
 
         <p className="text-lg font-bold text-center">Or</p>
 
-        <Button type="button" gradientDuoTone="tealToLime">
+        <button
+          type="button"
+          className="bg-gray-600 hover:bg-gray-700 duration-300 flex items-center justify-center text-white p-3 rounded-md"
+        >
           Login with Google
           <FcGoogle className="text-lg ml-2" />
-        </Button>
+        </button>
       </form>
     </div>
   );

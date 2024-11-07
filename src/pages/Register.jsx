@@ -11,7 +11,7 @@ export default function Register() {
 
   return (
     <div>
-      <form className="bg-slate-700 flex max-w-md flex-col gap-4 border-2 border-gray-500 mx-auto my-10 p-5 rounded-xl shadow-2xl">
+      <form className="bg-slate-800 flex max-w-md flex-col gap-4 border-2 border-gray-500 mx-auto my-10 p-5 rounded-xl shadow-2xl">
         <div>
           <div className="mb-2 block">
             <Label
@@ -21,7 +21,13 @@ export default function Register() {
             />
           </div>
 
-          <TextInput id="name" type="text" placeholder="Name" required />
+          <input
+            id="name"
+            type="text"
+            placeholder="Name"
+            required
+            className="w-full bg-slate-900 border-slate-500 rounded-md"
+          />
         </div>
 
         <div>
@@ -33,11 +39,12 @@ export default function Register() {
             />
           </div>
 
-          <TextInput
+          <input
             id="email1"
             type="email"
             placeholder="name@example.com"
             required
+            className="w-full bg-slate-900 border-slate-500 rounded-md"
           />
         </div>
 
@@ -50,7 +57,11 @@ export default function Register() {
             />
           </div>
 
-          <FileInput id="file-upload" />
+          <input
+            type="file"
+            id="file-upload"
+            className="w-full bg-slate-900 border-slate-500 rounded-md"
+          />
         </div>
 
         <div className="relative">
@@ -62,11 +73,12 @@ export default function Register() {
             />
           </div>
 
-          <TextInput
+          <input
             id="password1"
             type={showPassword ? "text" : "password"}
             placeholder="Create a password"
             required
+            className="w-full bg-slate-900 border-slate-500 rounded-md"
           />
 
           {showPassword ? (
@@ -92,7 +104,7 @@ export default function Register() {
           </Link>
         </p>
 
-        <Button type="submit" color="dark">
+        <Button type="submit" color="gray">
           Register
         </Button>
       </form>

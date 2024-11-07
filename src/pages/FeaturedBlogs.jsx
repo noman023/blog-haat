@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function FeaturedBlogs() {
   return (
     <div className="overflow-x-auto">
-      <h1 className="text-3xl text-center italic mb-10">
+      <h1 className="text-3xl md:text-4xl text-center italic mb-10">
         Read our top 10 blogs
       </h1>
 

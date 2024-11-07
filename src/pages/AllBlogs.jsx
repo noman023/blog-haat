@@ -7,7 +7,7 @@ export default function AllBlogs() {
 
   return (
     <div className="mt-4">
-      <h1 className="text-3xl text-center italic">All Blogs</h1>
+      <h1 className="text-3xl md:text-4xl text-center italic">All Blogs</h1>
 
       <div className="max-w-md mx-auto my-10 ">
         <TextInput
