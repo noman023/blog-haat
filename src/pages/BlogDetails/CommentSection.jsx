@@ -37,7 +37,7 @@ export default function CommentSection() {
             value={comment}
             name="comment"
             placeholder="Comment on this blog.."
-            className="w-full bg-slate-900 text-slate-300 border-slate-500"
+            className="w-full bg-slate-800 text-slate-300 border-slate-500"
             onChange={(e) => setComment(e.target.value)}
           />
 
