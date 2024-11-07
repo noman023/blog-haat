@@ -3,7 +3,7 @@ import { Button, FileInput, Label, TextInput, Textarea } from "flowbite-react";
 export default function AddBlog() {
   return (
     <div className="mt-16">
-      <h1 className=" text-4xl text-center mb-7">Write your blog.</h1>
+      <h1 className=" text-4xl text-center italic mb-7">Write your blog</h1>
 
       <form className="flex flex-col gap-4">
         <div>
