@@ -24,6 +24,9 @@ export default function NavComponent() {
       name: "Bookmark",
     },
   ];
+
+  const dropdownItemStyle = "text-slate-300 hover:text-slate-950 duration-200";
+
   return (
     <Navbar fluid rounded className="bg-slate-950 px-0">
       <Navbar.Brand href="/">
@@ -53,14 +56,20 @@ export default function NavComponent() {
               rounded
             />
           }
+          className="bg-slate-700"
         >
-          <Dropdown.Header>
+          <Dropdown.Header className="text-slate-300">
             <span className="block text-sm">Bonnie Green</span>
             <span className="block truncate text-sm font-medium">
               name@flowbite.com
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Sign out</Dropdown.Item>
+
+          <Link to={"/login"}>
+            <Dropdown.Item className={dropdownItemStyle}>Sign In</Dropdown.Item>
+          </Link>
+
+          <Dropdown.Item className={dropdownItemStyle}>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
