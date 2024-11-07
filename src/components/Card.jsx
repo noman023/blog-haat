@@ -10,7 +10,7 @@ export default function CardComponent({ bookmark = false }) {
 
   return (
     <Card
-      className="max-w-sm bg-slate-900 border-gray-500"
+      className="max-w-sm bg-slate-800 border-gray-500 rounded-xl"
       imgAlt="blog image"
       imgSrc="/images/image-1.jpg"
     >

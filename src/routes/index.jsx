@@ -7,7 +7,7 @@ import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 
 import AllBlogs from "../pages/AllBlogs";
-import BlogDetails from "../pages/BlogDetails";
+import BlogDetails from "../pages/BlogDetails/BlogDetails";
 import AddBlog from "../pages/AddBlog";
 import BookMark from "../pages/BookMark";
 import FeaturedBlogs from "../pages/FeaturedBlogs";
