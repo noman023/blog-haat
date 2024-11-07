@@ -1,11 +1,10 @@
 import { Button, FileInput, Label, TextInput } from "flowbite-react";
 import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 
-export default function Login() {
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data) => {};

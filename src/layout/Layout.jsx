@@ -9,7 +9,9 @@ export default function RootLayout() {
       <div className="flex-grow">
         <NavComponent />
 
-        <Outlet />
+        <div className="my-12">
+          <Outlet />
+        </div>
       </div>
 
       <FooterComponent />
