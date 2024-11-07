@@ -1,8 +1,13 @@
 import { Badge, Button, Card } from "flowbite-react";
 import { FaRegBookmark } from "react-icons/fa";
+import { IoTrashBinSharp } from "react-icons/io5";
+
 import { Link } from "react-router-dom";
 
-export default function CardComponent() {
+export default function CardComponent({ bookmark = false }) {
+  const handleBookmark = () => {};
+  const handleRemoveBookmark = () => {};
+
   return (
     <Card
       className="max-w-sm bg-slate-900 border-gray-500"
@@ -30,10 +35,19 @@ export default function CardComponent() {
           <Button color="gray">Read Blog</Button>
         </Link>
 
-        <FaRegBookmark
-          className="text-2xl cursor-pointer"
-          title="bookmark this blog"
-        />
+        {bookmark ? (
+          <IoTrashBinSharp
+            className="text-2xl cursor-pointer"
+            title="Remove from bookmark"
+            onClick={handleRemoveBookmark}
+          />
+        ) : (
+          <FaRegBookmark
+            className="text-2xl cursor-pointer"
+            title="bookmark this blog"
+            onClick={handleBookmark}
+          />
+        )}
       </div>
     </Card>
   );
