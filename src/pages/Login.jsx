@@ -1,5 +1,5 @@
 import { Button, Label } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -10,8 +10,6 @@ import useAuth from "../hooks/useAuth";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { loginWithGoogle, logIn } = useAuth();
-
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,8 +27,6 @@ export default function Login() {
           showConfirmButton: false,
           timer: 1500,
         });
-
-        navigate("/");
       })
       .catch((err) => {
         Swal.fire({

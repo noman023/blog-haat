@@ -1,5 +1,5 @@
 import { Button, Label } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
@@ -14,8 +14,6 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const { createUser, updateUserProfile } = useAuth();
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,8 +63,6 @@ export default function Register() {
                 showConfirmButton: false,
                 timer: 1500,
               });
-
-              navigate("/");
             })
             .catch((err) => {
               Swal.fire({

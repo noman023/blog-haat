@@ -1,5 +1,4 @@
 import { Button, Label } from "flowbite-react";
-import { useNavigate } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
@@ -10,7 +9,6 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 export default function AddBlog() {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,8 +43,6 @@ export default function AddBlog() {
           showConfirmButton: false,
           timer: 1500,
         });
-
-        navigate("/");
       } else {
         Swal.fire({
           icon: "warning",
