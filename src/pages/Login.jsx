@@ -9,8 +9,26 @@ import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const { loginWithGoogle, user } = useAuth();
-  // console.log(user);
+  const { loginWithGoogle, logIn } = useAuth();
+
+  const handleSubmit = (data) => {
+    logIn(data.email, data.password)
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Logged in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        });
+      });
+  };
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
@@ -33,7 +51,10 @@ export default function Login() {
 
   return (
     <div>
-      <form className="bg-slate-800 flex max-w-md flex-col gap-4 border-2 border-gray-500 mx-auto my-10 p-5 rounded-xl shadow-2xl">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-slate-800 flex max-w-md flex-col gap-4 border-2 border-gray-500 mx-auto my-10 p-5 rounded-xl shadow-2xl"
+      >
         <div>
           <div className="mb-2 block">
             <Label
@@ -92,7 +113,7 @@ export default function Login() {
           </Link>
         </p>
 
-        <Button type="submit" color="gray">
+        <Button type="submit" color="gray" onClick={handleSubmit}>
           Login
         </Button>
 
