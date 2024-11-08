@@ -11,6 +11,7 @@ import BlogDetails from "../pages/BlogDetails/BlogDetails";
 import AddBlog from "../pages/AddBlog";
 import BookMark from "../pages/BookMark";
 import FeaturedBlogs from "../pages/FeaturedBlogs";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs/add",
-        element: <AddBlog />,
+        element: (
+          <PrivateRoute>
+            <AddBlog />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blogs/all",
@@ -44,7 +49,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs/bookmark",
-        element: <BookMark />,
+        element: (
+          <PrivateRoute>
+            <BookMark />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blogs/featured",

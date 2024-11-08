@@ -69,7 +69,7 @@ export default function AuthContextProvider({ children }) {
     // observe user's state
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      // console.log(user);
+      setLoading(false);
     });
 
     // stop observer
