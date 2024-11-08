@@ -1,7 +1,10 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
 
 export default function NavComponent() {
+  const { user, logOut } = useAuth();
   const links = [
     {
       path: "/",
@@ -27,6 +30,25 @@ export default function NavComponent() {
 
   const dropdownItemStyle = "text-slate-300 hover:text-slate-950 duration-200";
 
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Logout successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        });
+      });
+  };
+
   return (
     <Navbar fluid rounded className="bg-slate-950 px-0">
       <Navbar.Brand href="/">
@@ -49,21 +71,40 @@ export default function NavComponent() {
         <Dropdown
           arrowIcon={false}
           inline
-          label={<Avatar alt="User settings" img="/user.png" rounded />}
+          label={
+            <Avatar
+              alt="User settings"
+              img={user ? user.photoURL : "/user.png"}
+              rounded
+            />
+          }
           className="bg-slate-700"
         >
           <Dropdown.Header className="text-slate-300">
-            <span className="block text-sm">Bonnie Green</span>
+            <span className="block text-sm">
+              {user ? user.displayName : "User Name"}
+            </span>
             <span className="block truncate text-sm font-medium">
-              name@flowbite.com
+              {user ? user.email : "User Email"}
             </span>
           </Dropdown.Header>
 
-          <Link to={"/login"}>
-            <Dropdown.Item className={dropdownItemStyle}>Sign In</Dropdown.Item>
-          </Link>
-
-          <Dropdown.Item className={dropdownItemStyle}>Sign out</Dropdown.Item>
+          {user ? (
+            <>
+              <Dropdown.Item
+                className={dropdownItemStyle}
+                onClick={handleLogOut}
+              >
+                Sign out
+              </Dropdown.Item>
+            </>
+          ) : (
+            <Link to={"/login"}>
+              <Dropdown.Item className={dropdownItemStyle}>
+                Sign In
+              </Dropdown.Item>
+            </Link>
+          )}
         </Dropdown>
         <Navbar.Toggle />
       </div>

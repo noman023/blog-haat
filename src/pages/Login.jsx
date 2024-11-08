@@ -1,5 +1,5 @@
 import { Button, Label } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -11,8 +11,16 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { loginWithGoogle, logIn } = useAuth();
 
-  const handleSubmit = (data) => {
-    logIn(data.email, data.password)
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const field = e.target;
+    const email = field.email.value;
+    const password = field.password.value;
+
+    logIn(email, password)
       .then(() => {
         Swal.fire({
           position: "top-end",
@@ -21,6 +29,8 @@ export default function Login() {
           showConfirmButton: false,
           timer: 1500,
         });
+
+        navigate("/");
       })
       .catch((err) => {
         Swal.fire({
@@ -67,6 +77,7 @@ export default function Login() {
           <input
             id="email1"
             type="email"
+            name="email"
             placeholder="name@example.com"
             required
             className="w-full bg-slate-900 border-slate-500 rounded-md"
@@ -84,6 +95,7 @@ export default function Login() {
 
           <input
             id="password1"
+            name="password"
             type={showPassword ? "text" : "password"}
             placeholder="password"
             required
@@ -113,7 +125,7 @@ export default function Login() {
           </Link>
         </p>
 
-        <Button type="submit" color="gray" onClick={handleSubmit}>
+        <Button type="submit" color="gray">
           Login
         </Button>
 
