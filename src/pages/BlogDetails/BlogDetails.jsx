@@ -1,9 +1,14 @@
 import { Badge, Button } from "flowbite-react";
 
 import CommentSection from "./CommentSection";
+import { useLoaderData } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 export default function BlogDetails() {
-  const user = true;
+  const { user } = useAuth();
+
+  const res = useLoaderData();
+  const { category, title, content, imgURL, writerEmail } = res[0];
 
   return (
     <>
@@ -11,7 +16,7 @@ export default function BlogDetails() {
       <div className=" bg-slate-800 border-gray-500 mb-12 md:mb-20 rounded-xl">
         <div>
           <img
-            src="/images/image-1.jpg"
+            src={imgURL ? imgURL : "/images/image-1.jpg"}
             alt="blog image"
             className="w-full h-[200px] md:h-[400px] object-cover rounded-xl"
           />
@@ -21,10 +26,10 @@ export default function BlogDetails() {
         <div className="p-3 mt-3 space-y-7">
           <div className="flex justify-between ">
             <Badge color="success" className="max-w-max" size="lg">
-              Health
+              {category}
             </Badge>
 
-            {user && (
+            {user.email != writerEmail && (
               <Button size="sm" color="gray">
                 Update Blog
               </Button>
@@ -32,22 +37,10 @@ export default function BlogDetails() {
           </div>
 
           <h1 className="text-slate-100 text-3xl md:text-5xl text-center font-bold ">
-            This is blog title
+            {title}
           </h1>
 
-          <p className="text-xl pb-5">
-            Here are the biggest enterprise technology acquisitions of 2021 so
-            far, in reverse chronological order. Here are the biggest enterprise
-            technology acquisitions of 2021 so far, in reverse chronological
-            order.
-            <br />
-            <br />
-            Here are the biggest enterprise technology acquisitions of 2021 so
-            far, in reverse chronological order. technology acquisitions of 2021
-            so far, in reverse chronological order. Here are the biggest
-            enterprise technology acquisitions of 2021 so far, in reverse
-            chronological order.
-          </p>
+          <p className="text-xl pb-5">{content}</p>
         </div>
       </div>
 
