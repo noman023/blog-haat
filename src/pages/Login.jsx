@@ -1,14 +1,35 @@
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button, Label } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const { loginWithGoogle, user } = useAuth();
+  // console.log(user);
 
-  const onSubmit = (data) => {};
+  const handleGoogleLogin = () => {
+    loginWithGoogle()
+      .then((res) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Logged in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) =>
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        })
+      );
+  };
 
   return (
     <div>
@@ -78,6 +99,7 @@ export default function Login() {
         <p className="text-lg font-bold text-center">Or</p>
 
         <button
+          onClick={handleGoogleLogin}
           type="button"
           className="bg-gray-600 hover:bg-gray-700 duration-300 flex items-center justify-center text-white p-3 rounded-md"
         >
