@@ -1,13 +1,71 @@
 import { Button, Label } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+
+import useAuth from "../hooks/useAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 export default function AddBlog() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const field = e.target;
+
+    // host image to imgbb
+    const imageFile = { image: field.image.files[0] };
+    const response = await axios.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    const imgUrl = response.data.data.display_url;
+
+    const blogData = {
+      title: field.title.value,
+      category: field.category.value,
+      imgURL: imgUrl,
+      content: field.content.value,
+      writerName: user && user.displayName,
+      writerEmail: user && user.email,
+    };
+
+    if (response.data.success) {
+      const res = await axios.post("http://localhost:4000/blog/add", blogData);
+
+      if (res.status === 201) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: res.data,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        navigate("/");
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        });
+      }
+    }
+  };
+
   return (
     <div className="mt-16">
       <h1 className="text-3xl md:text-4xl text-center italic mb-7">
         Write your blog
       </h1>
 
-      <form className="flex flex-col gap-4 bg-slate-800 px-5 py-7 rounded-xl space-y-3">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 bg-slate-800 px-5 py-7 rounded-xl space-y-3"
+      >
         <div>
           <div className="mb-2 block">
             <Label
@@ -18,6 +76,7 @@ export default function AddBlog() {
           </div>
 
           <input
+            name="title"
             id="title"
             type="text"
             placeholder="Blog title.."
@@ -36,6 +95,7 @@ export default function AddBlog() {
           </div>
 
           <select
+            name="category"
             id="category"
             required
             className="w-full bg-slate-900 border-slate-500"
@@ -59,6 +119,7 @@ export default function AddBlog() {
           </div>
 
           <input
+            name="image"
             type="file"
             id="file-upload"
             className="w-full bg-slate-900 border-slate-500 rounded-md"
