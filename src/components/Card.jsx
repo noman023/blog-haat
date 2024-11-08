@@ -4,7 +4,7 @@ import { IoTrashBinSharp } from "react-icons/io5";
 
 import { Link } from "react-router-dom";
 
-export default function CardComponent({ bookmark = false }) {
+export default function CardComponent({ data, bookmark = false }) {
   const handleBookmark = () => {};
   const handleRemoveBookmark = () => {};
 
@@ -12,26 +12,18 @@ export default function CardComponent({ bookmark = false }) {
     <Card
       className="max-w-sm bg-slate-800 border-gray-500 rounded-xl"
       imgAlt="blog image"
-      imgSrc="/images/image-1.jpg"
+      imgSrc={data?.imgURL ? data.imgURL : "/images/image-1.jpg"}
     >
       <Badge color="success" className="max-w-max">
-        Health
+        {data.category}
       </Badge>
 
-      <h5 className="text-2xl font-bold tracking-tight">
-        Noteworthy technology acquisitions 2021
-      </h5>
+      <h5 className="text-2xl font-bold tracking-tight">{data.title}</h5>
 
-      <p className="line-clamp-3">
-        Here are the biggest enterprise technology acquisitions of 2021 so far,
-        in reverse chronological order. Here are the biggest enterprise
-        technology acquisitions of 2021 so far, in reverse chronological order.
-        Here are the biggest enterprise technology acquisitions of 2021 so far,
-        in reverse chronological order.
-      </p>
+      <p className="line-clamp-3">{data.content}</p>
 
       <div className="flex justify-between items-center mt-2">
-        <Link to={"/blogs/blogNumber"}>
+        <Link to={`/blogs/${data._id}`}>
           <Button color="gray">Read Blog</Button>
         </Link>
 

@@ -1,9 +1,24 @@
 import { TextInput } from "flowbite-react";
 import CardComponent from "../components/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function AllBlogs() {
+  const [blogs, setBlogs] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/blog/");
+        setBlogs(res.data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   return (
     <div className="mt-4">
@@ -17,10 +32,9 @@ export default function AllBlogs() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-        <CardComponent />
-        <CardComponent />
-        <CardComponent />
-        <CardComponent />
+        {blogs.map((blog) => (
+          <CardComponent key={blog._id} data={blog} />
+        ))}
       </div>
     </div>
   );
