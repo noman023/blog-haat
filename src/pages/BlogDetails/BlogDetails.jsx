@@ -29,7 +29,7 @@ export default function BlogDetails() {
               {category}
             </Badge>
 
-            {user.email != writerEmail && (
+            {user?.email != writerEmail && (
               <Button size="sm" color="gray">
                 Update Blog
               </Button>

@@ -21,6 +21,9 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        loader: () => {
+          return fetch(`http://localhost:4000/blog/`);
+        },
         element: <Home />,
       },
       {
@@ -45,7 +48,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs/:id",
-        loader: async ({ params }) => {
+        loader: ({ params }) => {
           return fetch(`http://localhost:4000/blog/${params.id}`);
         },
         element: <BlogDetails />,
