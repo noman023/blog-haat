@@ -2,9 +2,11 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
+import SpinnerComponent from "./Spinner";
 
 export default function NavComponent() {
-  const { user, logOut } = useAuth();
+  const { user, logOut, loading } = useAuth();
+
   const links = [
     {
       path: "/",
@@ -72,11 +74,15 @@ export default function NavComponent() {
           arrowIcon={false}
           inline
           label={
-            <Avatar
-              alt="User settings"
-              img={user ? user.photoURL : "/user.png"}
-              rounded
-            />
+            loading ? (
+              <SpinnerComponent />
+            ) : (
+              <Avatar
+                alt="User image"
+                img={user?.photoURL ? user.photoURL : "/user.png"}
+                rounded
+              />
+            )
           }
           className="bg-slate-700"
         >
