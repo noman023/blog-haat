@@ -3,14 +3,16 @@ import { Button, Label } from "flowbite-react";
 
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 export default function BlogForm({ blogData, closeModal }) {
-  // on adding blog
   const { user } = useAuth();
+  const navigate = useNavigate();
 
+  // on adding blog
   const onAdd = async (e) => {
     e.preventDefault();
     const field = e.target;
@@ -44,6 +46,8 @@ export default function BlogForm({ blogData, closeModal }) {
           showConfirmButton: false,
           timer: 1500,
         });
+
+        navigate("/");
       } else {
         Swal.fire({
           icon: "warning",
