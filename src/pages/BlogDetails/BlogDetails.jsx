@@ -1,14 +1,17 @@
-import { Badge, Button } from "flowbite-react";
+import { Badge, Button, Modal } from "flowbite-react";
 
 import CommentSection from "./CommentSection";
 import { useLoaderData } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
+import BlogForm from "../../components/shared/BlogForm";
 
 export default function BlogDetails() {
+  const [openModal, setOpenModal] = useState(null);
   const { user } = useAuth();
 
-  const res = useLoaderData();
-  const { category, title, content, imgURL, writerEmail } = res[0];
+  const responseData = useLoaderData();
+  const { category, title, content, imgURL, writerEmail } = responseData[0];
 
   return (
     <>
@@ -30,7 +33,7 @@ export default function BlogDetails() {
             </Badge>
 
             {user?.email != writerEmail && (
-              <Button size="sm" color="gray">
+              <Button size="sm" color="gray" onClick={() => setOpenModal(true)}>
                 Update Blog
               </Button>
             )}
@@ -43,6 +46,17 @@ export default function BlogDetails() {
           <p className="text-xl pb-5">{content}</p>
         </div>
       </div>
+
+      {/* modal for updating the blog */}
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header className="bg-slate-800 ">
+          <p className="text-slate-300">Update blog</p>
+        </Modal.Header>
+
+        <Modal.Body className="bg-slate-800 text-slate-300">
+          <BlogForm blogData={responseData[0]} closeModal={setOpenModal} />
+        </Modal.Body>
+      </Modal>
 
       {/* comment section */}
       <CommentSection />
