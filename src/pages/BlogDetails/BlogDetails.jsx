@@ -13,6 +13,13 @@ export default function BlogDetails() {
   const responseData = useLoaderData();
   const { category, title, content, imgURL, writerEmail } = responseData[0];
 
+  // every \n will be rendered as separate p tag
+  const splitContent = content.split("\n").map((line, index) => (
+    <p key={index} className="text-xl">
+      {line}
+    </p>
+  ));
+
   return (
     <>
       {/* blog content section*/}
@@ -26,7 +33,7 @@ export default function BlogDetails() {
         </div>
 
         {/* blog content */}
-        <div className="p-3 mt-3 space-y-7">
+        <div className="p-3 pb-7 mt-3 space-y-7">
           <div className="flex justify-between ">
             <Badge color="success" className="max-w-max" size="lg">
               {category}
@@ -43,7 +50,7 @@ export default function BlogDetails() {
             {title}
           </h1>
 
-          <p className="text-xl pb-5">{content}</p>
+          {splitContent}
         </div>
       </div>
 
