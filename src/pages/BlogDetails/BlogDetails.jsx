@@ -66,7 +66,7 @@ export default function BlogDetails() {
       </Modal>
 
       {/* comment section */}
-      <CommentSection />
+      <CommentSection author={writerEmail} />
     </>
   );
 }

@@ -2,9 +2,12 @@ import { Button } from "flowbite-react";
 import { useState } from "react";
 
 import CommentCard from "../../components/CommentCard";
+import useAuth from "../../hooks/useAuth";
 
-export default function CommentSection() {
+export default function CommentSection({ author }) {
   const [comment, setComment] = useState("");
+
+  const { user } = useAuth();
 
   const handleComment = () => {
     console.log("commnet posted");
@@ -39,9 +42,19 @@ export default function CommentSection() {
             placeholder="Comment on this blog.."
             className="w-full bg-slate-800 text-slate-300 border-slate-500"
             onChange={(e) => setComment(e.target.value)}
+            disabled={user?.email === author}
           />
 
-          <Button color="gray" onClick={handleComment} className="w-full">
+          {user?.email === author && (
+            <p className="text-yellow-300">Can't comment to your own post!</p>
+          )}
+
+          <Button
+            color="gray"
+            onClick={handleComment}
+            className="w-full"
+            disabled={user?.email === author}
+          >
             Comment
           </Button>
         </div>
