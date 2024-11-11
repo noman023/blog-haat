@@ -5,6 +5,7 @@ import CommentCard from "../../components/CommentCard";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
+import baseURL from "../../utils/baseURL";
 
 export default function CommentSection({ author, blogId }) {
   const [comment, setComment] = useState("");
@@ -22,7 +23,7 @@ export default function CommentSection({ author, blogId }) {
     };
 
     axios
-      .post(`http://localhost:4000/comment/add/`, commentData)
+      .post(`${baseURL}/comment/add/`, commentData)
       .then((res) => {
         if (res.status === 201) {
           Swal.fire({
@@ -47,9 +48,7 @@ export default function CommentSection({ author, blogId }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:4000/comment/?blogId=${blogId}`
-        );
+        const res = await axios.get(`${baseURL}/comment/?blogId=${blogId}`);
 
         setAllComments(res.data);
       } catch (error) {

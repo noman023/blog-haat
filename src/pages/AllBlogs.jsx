@@ -2,6 +2,7 @@ import { TextInput } from "flowbite-react";
 import CardComponent from "../components/shared/Card";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import baseURL from "../utils/baseURL";
 
 export default function AllBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -10,7 +11,7 @@ export default function AllBlogs() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/blog/");
+        const res = await axios.get(`${baseURL}/blog/`);
         setBlogs(res.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);

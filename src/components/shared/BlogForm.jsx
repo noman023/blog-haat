@@ -4,6 +4,7 @@ import { Button, Label } from "flowbite-react";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import baseURL from "../../utils/baseURL";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -36,7 +37,7 @@ export default function BlogForm({ blogData, closeModal }) {
     };
 
     if (response.data.success) {
-      const res = await axios.post("http://localhost:4000/blog/add", blogData);
+      const res = await axios.post(`${baseURL}/blog/add`, blogData);
 
       if (res.status === 201) {
         Swal.fire({
@@ -69,7 +70,7 @@ export default function BlogForm({ blogData, closeModal }) {
 
     //  update data
     axios
-      .patch(`http://localhost:4000/blog/${blogData._id}`, updatedData)
+      .patch(`${baseURL}/blog/${blogData._id}`, updatedData)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire({

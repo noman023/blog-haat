@@ -13,6 +13,8 @@ import BookMark from "../pages/BookMark";
 import FeaturedBlogs from "../pages/FeaturedBlogs";
 import PrivateRoute from "./PrivateRoute";
 
+import baseURL from "../utils/baseURL";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +24,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         loader: () => {
-          return fetch(`http://localhost:4000/blog/`);
+          return fetch(`${baseURL}/blog/`);
         },
         element: <Home />,
       },
@@ -49,7 +51,7 @@ const router = createBrowserRouter([
       {
         path: "/blogs/:id",
         loader: ({ params }) => {
-          return fetch(`http://localhost:4000/blog/${params.id}`);
+          return fetch(`${baseURL}/blog/${params.id}`);
         },
         element: <BlogDetails />,
       },
@@ -64,7 +66,7 @@ const router = createBrowserRouter([
       {
         path: "/blogs/featured",
         loader: () => {
-          return fetch(`http://localhost:4000/blog/`);
+          return fetch(`${baseURL}/blog/`);
         },
         element: <FeaturedBlogs />,
       },

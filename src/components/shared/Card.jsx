@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
+import baseURL from "../../utils/baseURL";
 
 export default function CardComponent({ data, bookmarkId = false }) {
   const { user } = useAuth();
@@ -13,7 +14,7 @@ export default function CardComponent({ data, bookmarkId = false }) {
   // add to bookmark
   const handleAddBookmark = async () => {
     axios
-      .post(`http://localhost:4000/bookmark/add/`, {
+      .post(`${baseURL}/bookmark/add/`, {
         blog: data._id,
         user: user.email,
       })
@@ -39,7 +40,7 @@ export default function CardComponent({ data, bookmarkId = false }) {
   // remove from bookmark
   const handleRemoveBookmark = () => {
     axios
-      .delete(`http://localhost:4000/bookmark/${bookmarkId}`)
+      .delete(`${baseURL}/bookmark/${bookmarkId}`)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire({

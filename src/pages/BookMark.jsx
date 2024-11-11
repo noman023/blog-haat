@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CardComponent from "../components/shared/Card";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import baseURL from "../utils/baseURL";
 
 export default function Bookmark() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -11,9 +12,7 @@ export default function Bookmark() {
   useEffect(() => {
     const fetchBookmarks = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:4000/bookmark?user=${user.email}`
-        );
+        const res = await axios.get(`${baseURL}/bookmark?user=${user.email}`);
 
         setBookmarks(res.data);
       } catch (error) {
