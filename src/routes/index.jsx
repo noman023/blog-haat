@@ -63,6 +63,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs/featured",
+        loader: () => {
+          return fetch(`http://localhost:4000/blog/`);
+        },
         element: <FeaturedBlogs />,
       },
     ],

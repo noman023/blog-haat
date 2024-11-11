@@ -1,8 +1,19 @@
 import { Avatar, Table } from "flowbite-react";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 export default function FeaturedBlogs() {
+  const data = useLoaderData();
+
+  const topTenBlogs = data
+    .map((blog) => ({
+      ...blog,
+      contentLength: blog.content.length, // Calculate content length
+    }))
+    // Sort by content length in descending order
+    .sort((a, b) => b.contentLength - a.contentLength)
+    .slice(0, 10); // Take the top 10 blogs
+
   return (
     <div className="overflow-x-auto">
       <h1 className="text-3xl md:text-4xl text-center italic mb-10">
@@ -21,63 +32,34 @@ export default function FeaturedBlogs() {
         </Table.Head>
 
         <Table.Body className="divide-y">
-          <Table.Row className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-slate-300">
-            <Table.Cell>1</Table.Cell>
-            <Table.Cell>Blog one</Table.Cell>
-            <Table.Cell>John doe</Table.Cell>
-            <Table.Cell>
-              <Avatar
-                alt="Writer Image"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              />
-            </Table.Cell>
+          {topTenBlogs.map((blog, index) => (
+            <Table.Row
+              key={blog._id}
+              className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-slate-300"
+            >
+              <Table.Cell>{index + 1}</Table.Cell>
+              <Table.Cell>{blog.title}</Table.Cell>
+              <Table.Cell>{blog.writerName}</Table.Cell>
+              <Table.Cell>
+                <Avatar
+                  alt="Writer Image"
+                  img={
+                    blog.writerImage
+                      ? blog.writerImage
+                      : "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  }
+                />
+              </Table.Cell>
 
-            <Table.Cell>
-              <Link to={"/blogs/d"}>
-                <p className="flex items-center gap-2 hover:text-slate-400 duration-300">
-                  Read <FaLongArrowAltRight className="text-lg" />
-                </p>
-              </Link>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-slate-300">
-            <Table.Cell>1</Table.Cell>
-            <Table.Cell>Blog one</Table.Cell>
-            <Table.Cell>John doe</Table.Cell>
-            <Table.Cell>
-              <Avatar
-                alt="Writer Image"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              />
-            </Table.Cell>
-
-            <Table.Cell>
-              <Link to={"/blogs/d"}>
-                <p className="flex items-center gap-2 hover:text-slate-400 duration-300">
-                  Read <FaLongArrowAltRight className="text-lg" />
-                </p>
-              </Link>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-slate-300">
-            <Table.Cell>1</Table.Cell>
-            <Table.Cell>Blog one</Table.Cell>
-            <Table.Cell>John doe</Table.Cell>
-            <Table.Cell>
-              <Avatar
-                alt="Writer Image"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              />
-            </Table.Cell>
-
-            <Table.Cell>
-              <Link to={"/blogs/d"}>
-                <p className="flex items-center gap-2 hover:text-slate-400 duration-300">
-                  Read <FaLongArrowAltRight className="text-lg" />
-                </p>
-              </Link>
-            </Table.Cell>
-          </Table.Row>
+              <Table.Cell>
+                <Link to={`/blogs/${blog._id}`}>
+                  <p className="flex items-center gap-2 hover:text-slate-400 duration-300">
+                    Read <FaLongArrowAltRight className="text-lg" />
+                  </p>
+                </Link>
+              </Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table>
     </div>
