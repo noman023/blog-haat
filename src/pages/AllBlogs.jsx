@@ -1,5 +1,5 @@
 import { TextInput } from "flowbite-react";
-import CardComponent from "../components/Card";
+import CardComponent from "../components/shared/Card";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

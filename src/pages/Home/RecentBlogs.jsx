@@ -1,4 +1,4 @@
-import CardComponent from "../../components/Card";
+import CardComponent from "../../components/shared/Card";
 
 export default function RecentBlogs({ data }) {
   return (
