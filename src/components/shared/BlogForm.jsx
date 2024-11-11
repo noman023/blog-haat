@@ -69,7 +69,7 @@ export default function BlogForm({ blogData, closeModal }) {
 
     //  update data
     axios
-      .patch(`/blogs/${blogData._id}`, updatedData)
+      .patch(`http://localhost:4000/blog/${blogData._id}`, updatedData)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire({
