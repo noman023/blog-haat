@@ -1,18 +1,64 @@
 import { Button } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CommentCard from "../../components/CommentCard";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export default function CommentSection({ author }) {
+export default function CommentSection({ author, blogId }) {
   const [comment, setComment] = useState("");
+  const [allComments, setAllComments] = useState([]);
 
   const { user } = useAuth();
 
   const handleComment = () => {
-    console.log("commnet posted");
+    const commentData = {
+      blogId,
+      comment,
+      commenterName: user.displayName,
+      commenterEmail: user.email,
+      commenterImg: user.photoURL,
+    };
+
+    axios
+      .post(`http://localhost:4000/comment/add/`, commentData)
+      .then((res) => {
+        if (res.status === 201) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: res.data,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "warning",
+          title: err.response.data,
+        });
+      });
+
     setComment("");
   };
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/comment/?blogId=${blogId}`
+        );
+
+        setAllComments(res.data);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
+    fetchComments();
+  }, []);
 
   return (
     <div>
@@ -26,8 +72,12 @@ export default function CommentSection({ author }) {
           <p className="mb-2">All Comments</p>
 
           <div className="space-y-3">
-            <CommentCard />
-            <CommentCard />
+            {allComments.length === 0 && (
+              <p className="text-yellow-300">No comments found!</p>
+            )}
+            {allComments.map((comment) => (
+              <CommentCard key={comment._id} data={comment} />
+            ))}
           </div>
         </div>
 

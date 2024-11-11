@@ -11,7 +11,8 @@ export default function BlogDetails() {
   const { user } = useAuth();
 
   const responseData = useLoaderData();
-  const { category, title, content, imgURL, writerEmail } = responseData[0];
+  const { category, title, content, imgURL, writerEmail, _id } =
+    responseData[0];
 
   // every \n will be rendered as separate p tag
   const splitContent = content.split("\n").map((line, index) => (
@@ -66,7 +67,7 @@ export default function BlogDetails() {
       </Modal>
 
       {/* comment section */}
-      <CommentSection author={writerEmail} />
+      <CommentSection author={writerEmail} blogId={_id} />
     </>
   );
 }
