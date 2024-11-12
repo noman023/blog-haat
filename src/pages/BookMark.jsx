@@ -7,9 +7,11 @@ import SpinnerComponent from "../components/Spinner";
 export default function Bookmark() {
   const { user } = useAuth();
 
-  const { data = [], isPending } = useTanstackQuery(
-    `/bookmark?user=${user.email}`
-  );
+  const {
+    data = [],
+    isPending,
+    refetch,
+  } = useTanstackQuery(`/bookmark?user=${user.email}`);
 
   return (
     <div className="mt-4">
@@ -31,6 +33,7 @@ export default function Bookmark() {
               key={bookmark._id}
               data={bookmark.blog}
               bookmarkId={bookmark._id}
+              refetch={refetch}
             />
           ))
         )}

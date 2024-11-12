@@ -1,20 +1,21 @@
 import { Badge, Button, Card } from "flowbite-react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+
 import { FaRegBookmark } from "react-icons/fa";
 import { IoTrashBinSharp } from "react-icons/io5";
 
-import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
-import Swal from "sweetalert2";
-import baseURL from "../../utils/baseURL";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
-export default function CardComponent({ data, bookmarkId = false }) {
+export default function CardComponent({ data, bookmarkId = false, refetch }) {
   const { user } = useAuth();
+  const axiosInstance = useAxiosInstance();
 
   // add to bookmark
   const handleAddBookmark = async () => {
-    axios
-      .post(`${baseURL}/bookmark/add/`, {
+    axiosInstance
+      .post("/bookmark/add/", {
         blog: data._id,
         user: user.email,
       })
@@ -39,8 +40,8 @@ export default function CardComponent({ data, bookmarkId = false }) {
 
   // remove from bookmark
   const handleRemoveBookmark = () => {
-    axios
-      .delete(`${baseURL}/bookmark/${bookmarkId}`)
+    axiosInstance
+      .delete(`/bookmark/${bookmarkId}`)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire({
@@ -50,6 +51,9 @@ export default function CardComponent({ data, bookmarkId = false }) {
             showConfirmButton: false,
             timer: 1500,
           });
+
+          // refetch bookmark
+          refetch();
         }
       })
       .catch((err) => {
