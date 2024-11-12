@@ -13,8 +13,6 @@ import BookMark from "../pages/BookMark";
 import FeaturedBlogs from "../pages/FeaturedBlogs";
 import PrivateRoute from "./PrivateRoute";
 
-import baseURL from "../utils/baseURL";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,9 +21,6 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        loader: () => {
-          return fetch(`${baseURL}/blog/`);
-        },
         element: <Home />,
       },
       {
