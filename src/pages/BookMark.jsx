@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
 import CardComponent from "../components/shared/Card";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
-import baseURL from "../utils/baseURL";
+
+import useTanstackQuery from "../hooks/useTanstackQuery";
+import SpinnerComponent from "../components/Spinner";
 
 export default function Bookmark() {
-  const [bookmarks, setBookmarks] = useState([]);
-
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/bookmark?user=${user.email}`);
-
-        setBookmarks(res.data);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      }
-    };
-
-    fetchBookmarks();
-  }, []);
+  const { data = [], isPending } = useTanstackQuery(
+    `/bookmark?user=${user.email}`
+  );
 
   return (
     <div className="mt-4">
@@ -30,17 +18,22 @@ export default function Bookmark() {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-        {bookmarks.length === 0 && (
+        {/* if not pending and no data then show this text */}
+        {!isPending && data.length === 0 && (
           <p className="text-yellow-300">No bookmark found!</p>
         )}
 
-        {bookmarks.map((bookmark) => (
-          <CardComponent
-            key={bookmark._id}
-            data={bookmark.blog}
-            bookmarkId={bookmark._id}
-          />
-        ))}
+        {isPending ? (
+          <SpinnerComponent />
+        ) : (
+          data.map((bookmark) => (
+            <CardComponent
+              key={bookmark._id}
+              data={bookmark.blog}
+              bookmarkId={bookmark._id}
+            />
+          ))
+        )}
       </div>
     </div>
   );
