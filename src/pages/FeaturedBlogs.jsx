@@ -1,18 +1,24 @@
 import { Avatar, Table } from "flowbite-react";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import useTanstackQuery from "../hooks/useTanstackQuery";
+import SpinnerComponent from "../components/Spinner";
 
 export default function FeaturedBlogs() {
-  const data = useLoaderData();
+  const { data = [], isPending } = useTanstackQuery("/blog");
 
+  if (isPending) return <SpinnerComponent />;
+
+  // select 10 blogs by their content size
   const topTenBlogs = data
     .map((blog) => ({
       ...blog,
-      contentLength: blog.content.length, // Calculate content length
+      contentLength: blog.content.length,
     }))
     // Sort by content length in descending order
     .sort((a, b) => b.contentLength - a.contentLength)
-    .slice(0, 10); // Take the top 10 blogs
+    .slice(0, 10);
 
   return (
     <div className="overflow-x-auto">
@@ -32,6 +38,7 @@ export default function FeaturedBlogs() {
         </Table.Head>
 
         <Table.Body className="divide-y">
+          {/* show top 10 blogs */}
           {topTenBlogs.map((blog, index) => (
             <Table.Row
               key={blog._id}
