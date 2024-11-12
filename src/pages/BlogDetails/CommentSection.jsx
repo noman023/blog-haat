@@ -1,18 +1,21 @@
 import { Button } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Swal from "sweetalert2";
+
+import useAuth from "../../hooks/useAuth";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 import CommentCard from "../../components/CommentCard";
-import useAuth from "../../hooks/useAuth";
-import axios from "axios";
-import Swal from "sweetalert2";
-import baseURL from "../../utils/baseURL";
+import useTanstackQuery from "../../hooks/useTanstackQuery";
 
 export default function CommentSection({ author, blogId }) {
   const [comment, setComment] = useState("");
-  const [allComments, setAllComments] = useState([]);
-
   const { user } = useAuth();
+  const axiosInstance = useAxiosInstance();
 
+  const { data = [], refetch } = useTanstackQuery(`/comment/?blogId=${blogId}`);
+
+  // add comment
   const handleComment = () => {
     const commentData = {
       blogId,
@@ -22,8 +25,8 @@ export default function CommentSection({ author, blogId }) {
       commenterImg: user.photoURL,
     };
 
-    axios
-      .post(`${baseURL}/comment/add/`, commentData)
+    axiosInstance
+      .post(`/comment/add/`, commentData)
       .then((res) => {
         if (res.status === 201) {
           Swal.fire({
@@ -33,6 +36,9 @@ export default function CommentSection({ author, blogId }) {
             showConfirmButton: false,
             timer: 1500,
           });
+
+          // refetch comments
+          refetch();
         }
       })
       .catch((err) => {
@@ -44,20 +50,6 @@ export default function CommentSection({ author, blogId }) {
 
     setComment("");
   };
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/comment/?blogId=${blogId}`);
-
-        setAllComments(res.data);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
-
-    fetchComments();
-  }, []);
 
   return (
     <div>
@@ -71,10 +63,11 @@ export default function CommentSection({ author, blogId }) {
           <p className="mb-2">All Comments</p>
 
           <div className="space-y-3">
-            {allComments.length === 0 && (
+            {data.length === 0 && (
               <p className="text-yellow-300">No comments found!</p>
             )}
-            {allComments.map((comment) => (
+
+            {data.map((comment) => (
               <CommentCard key={comment._id} data={comment} />
             ))}
           </div>
