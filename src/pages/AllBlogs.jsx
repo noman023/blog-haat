@@ -3,11 +3,12 @@ import { useState } from "react";
 
 import CardComponent from "../components/shared/Card";
 import useTanstackQuery from "../hooks/useTanstackQuery";
+import SpinnerComponent from "../components/Spinner";
 
 export default function AllBlogs() {
   const [searchText, setSearchText] = useState("");
 
-  const { data: blogs = [] } = useTanstackQuery("/blog");
+  const { data: blogs = [], isPending } = useTanstackQuery("/blog");
 
   return (
     <div className="mt-4">
@@ -21,9 +22,11 @@ export default function AllBlogs() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-        {blogs.map((blog) => (
-          <CardComponent key={blog._id} data={blog} />
-        ))}
+        {isPending ? (
+          <SpinnerComponent />
+        ) : (
+          blogs.map((blog) => <CardComponent key={blog._id} data={blog} />)
+        )}
       </div>
     </div>
   );
