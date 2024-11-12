@@ -1,25 +1,13 @@
 import { TextInput } from "flowbite-react";
+import { useState } from "react";
+
 import CardComponent from "../components/shared/Card";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import baseURL from "../utils/baseURL";
+import useTanstackQuery from "../hooks/useTanstackQuery";
 
 export default function AllBlogs() {
-  const [blogs, setBlogs] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/blog/`);
-        setBlogs(res.data);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
+  const { data: blogs = [] } = useTanstackQuery("/blog");
 
   return (
     <div className="mt-4">
