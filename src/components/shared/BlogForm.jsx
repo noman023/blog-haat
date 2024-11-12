@@ -1,16 +1,18 @@
 import axios from "axios";
 import { Button, Label } from "flowbite-react";
-
-import Swal from "sweetalert2";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import baseURL from "../../utils/baseURL";
+import Swal from "sweetalert2";
+
+import useAuth from "../../hooks/useAuth";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 export default function BlogForm({ blogData, closeModal, refetch }) {
   const { user } = useAuth();
+  const axiosInstance = useAxiosInstance();
+
   const navigate = useNavigate();
 
   // on adding blog
@@ -37,7 +39,7 @@ export default function BlogForm({ blogData, closeModal, refetch }) {
     };
 
     if (response.data.success) {
-      const res = await axios.post(`${baseURL}/blog/add`, blogData);
+      const res = await axiosInstance.post("/blog/add", blogData);
 
       if (res.status === 201) {
         Swal.fire({
@@ -69,8 +71,8 @@ export default function BlogForm({ blogData, closeModal, refetch }) {
     };
 
     //  update data
-    axios
-      .patch(`${baseURL}/blog/${blogData._id}`, updatedData)
+    axiosInstance
+      .patch(`/blog/${blogData._id}`, updatedData)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire({
