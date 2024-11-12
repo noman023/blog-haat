@@ -50,9 +50,6 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs/:id",
-        loader: ({ params }) => {
-          return fetch(`${baseURL}/blog/${params.id}`);
-        },
         element: <BlogDetails />,
       },
       {

@@ -9,7 +9,7 @@ import baseURL from "../../utils/baseURL";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-export default function BlogForm({ blogData, closeModal }) {
+export default function BlogForm({ blogData, closeModal, refetch }) {
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -80,6 +80,9 @@ export default function BlogForm({ blogData, closeModal }) {
             showConfirmButton: false,
             timer: 1500,
           });
+
+          // refetch data
+          refetch();
         }
       })
       .catch((err) => {

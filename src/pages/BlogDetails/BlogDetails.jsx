@@ -1,18 +1,25 @@
 import { Badge, Button, Modal } from "flowbite-react";
-
-import CommentSection from "./CommentSection";
-import { useLoaderData } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
+
+import useAuth from "../../hooks/useAuth";
+import useTanstackQuery from "../../hooks/useTanstackQuery";
+import SpinnerComponent from "../../components/Spinner";
+
 import BlogForm from "../../components/shared/BlogForm";
+import CommentSection from "./CommentSection";
 
 export default function BlogDetails() {
   const [openModal, setOpenModal] = useState(null);
   const { user } = useAuth();
+  const { id } = useParams();
 
-  const responseData = useLoaderData();
-  const { category, title, content, imgURL, writerEmail, _id } =
-    responseData[0];
+  const { data = [], refetch } = useTanstackQuery(`/blog/${id}`);
+
+  // if no data show sipnner component
+  if (!data[0]) return <SpinnerComponent />;
+
+  const { category, title, content, imgURL, writerEmail, _id } = data[0];
 
   // every \n will be rendered as separate p tag
   const splitContent = content.split("\n").map((line, index) => (
@@ -62,7 +69,11 @@ export default function BlogDetails() {
         </Modal.Header>
 
         <Modal.Body className="bg-slate-800 text-slate-300">
-          <BlogForm blogData={responseData[0]} closeModal={setOpenModal} />
+          <BlogForm
+            blogData={data[0]}
+            closeModal={setOpenModal}
+            refetch={refetch}
+          />
         </Modal.Body>
       </Modal>
 
